@@ -9,18 +9,18 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: Color(0xfff5f7f9),
-        accentColor: Colors.white,
         textTheme: TextTheme(
-          title: TextStyle(
+          titleLarge: TextStyle(
             fontSize: 35,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
-          body1: TextStyle(
+          bodyMedium: TextStyle(
             fontSize: 15,
             color: Color(0xffb2b5be),
           ),
         ),
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
       ),
       home: MyHomePage(),
     );
@@ -62,7 +62,7 @@ class MyHomePage extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: Colors.grey[300],
+                    color: Colors.grey.shade300,
                   ),
                 ),
                 color: Colors.white,
@@ -73,7 +73,7 @@ class MyHomePage extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "Hi, Amazigh Halzoun",
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text("Tuesday, Jun 20"),
                 ],
@@ -85,11 +85,12 @@ class MyHomePage extends StatelessWidget {
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(13.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                child: ListView(
                   children: <Widget>[
-                    Text("UPCOMMING APPOINTMENTS"),
+                    Text(
+                      "UPCOMMING APPOINTMENTS",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     Container(
                       height: 200,
                       child: ListView(
@@ -104,7 +105,10 @@ class MyHomePage extends StatelessWidget {
                     SizedBox(
                       height: 9,
                     ),
-                    Text("My MEDICINES"),
+                    Text(
+                      "My MEDICINES",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     SizedBox(
                       height: 9,
                     ),
@@ -152,36 +156,39 @@ class MyHomePage extends StatelessWidget {
                     SizedBox(
                       height: 9,
                     ),
-                    Text("MESSAGES"),
+                    Text(
+                      "MESSAGES",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     SizedBox(
                       height: 9,
                     ),
-                    Expanded(
-                      child: ListView(
-                        children: <Widget>[
-                          MessagesCard(
-                            color: Colors.blue,
-                            icon: Icon(
-                              Icons.calendar_today,
-                              color: Colors.white,
-                            ),
+                    ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: <Widget>[
+                        MessagesCard(
+                          color: Colors.blue,
+                          icon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.white,
                           ),
-                          MessagesCard(
-                            color: Colors.blue,
-                            icon: Icon(
-                              Icons.calendar_today,
-                              color: Colors.white,
-                            ),
+                        ),
+                        MessagesCard(
+                          color: Colors.blue,
+                          icon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.white,
                           ),
-                          MessagesCard(
-                            color: Colors.blue,
-                            icon: Icon(
-                              Icons.calendar_today,
-                              color: Colors.white,
-                            ),
+                        ),
+                        MessagesCard(
+                          color: Colors.blue,
+                          icon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.white,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -266,7 +273,9 @@ class AppointmentCard extends StatelessWidget {
 class MedecineContainer extends StatelessWidget {
   final String time;
   final bool active;
-  const MedecineContainer({Key key, this.time, this.active}) : super(key: key);
+
+  const MedecineContainer(
+      {super.key, required this.time, required this.active});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -275,7 +284,7 @@ class MedecineContainer extends StatelessWidget {
         color: active ? Colors.blue : Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey[300],
+            color: Colors.grey.shade300,
             blurRadius: 3.0,
             offset: Offset(0, 1),
           ),
@@ -319,14 +328,15 @@ class MedecineContainer extends StatelessWidget {
 class MessagesCard extends StatelessWidget {
   final Color color;
   final Icon icon;
-  const MessagesCard({Key key, this.color, this.icon}) : super(key: key);
+
+  const MessagesCard({super.key, required this.color, required this.icon});
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [BoxShadow(color: Colors.grey[300], blurRadius: 3.0, offset: Offset(0,1))]
-      ),
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(
+            color: Colors.grey.shade300, blurRadius: 3.0, offset: Offset(0, 1))
+      ]),
       margin: EdgeInsets.symmetric(vertical: 11.0, horizontal: 5.0),
       padding: EdgeInsets.all(11.0),
       child: Row(
@@ -346,33 +356,29 @@ class MessagesCard extends StatelessWidget {
           Expanded(
             child: Column(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text(
-                      "Appointment Reminder",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black87),
-                    ),
-                    Spacer(),
-                    Text("10:00"),
-                  ],
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    "Appointment Reminder",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black87),
+                  ),
+                  trailing: Text("10:00"),
                 ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      "You have an appointment with Amazigh Halzoun",
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: false,
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    "You have an appointment with Amazigh Halzoun",
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                  ),
+                  trailing: Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                      icon: Icon(Icons.chevron_right),
+                      onPressed: () {},
                     ),
-                    Spacer(),
-                    Material(
-                      color: Colors.transparent,
-                      child: IconButton(
-                        icon: Icon(Icons.chevron_right),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
